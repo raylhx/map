@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=r8qbmkeFYd6EpwH6CpMWOlG5gBk5U3BN"></script>
+    <script src="MarkerClusterer.js"></script>
+    <script src="TextIconOverlay.js"></script>
+    <style>
+        body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        #container{width:100%;height:100%;}
+    </style>
+</head>
+<body>
+<div id="container"> </div>
+<script>
+    var map =new BMap.Map('container');
+    var centerPoint=new BMap.Point(113.036,23.0506);
+    map.centerAndZoom(centerPoint,12);
+    map.enableScrollWheelZoom(true);
+
+    var markers=[];
+    function addMarkerToMap(point){
+        var marker=new BMap.Marker(point);
+        markers.push(marker);
+        map.addOverlay(marker);
+    }
+
+    var bounds=map.getBounds();
+    var sw=bounds.getSouthWest();
+    var ne=bounds.getNorthEast();
+    var lngSpan=Math.abs(sw.lng-ne.lng);
+    var latSpan=Math.abs(sw.lat-ne.lat);
+
+    for(var i=0;i<150;i++){
+        var point=new BMap.Point(sw.lng+lngSpan*(Math.random()*0.7),ne.lat-latSpan*(Math.random()*0.7));
+        addMarkerToMap(point);
+    }
+
+    var clusterer=new BMapLib.MarkerClusterer(map,{markers:markers});
+
+
+
+
+</script>
+</body>
+</html>
